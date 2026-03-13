@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>机电维保项目管理系统（可直接访问）</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>机电设备维保项目管理系统</h1>
+    <p>受理 → 立项审核 → 派工 → 执行 → 验收 → 结算 → 归档（网页演示版）</p>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>新建项目</h2>
+      <form id="projectForm" class="grid">
+        <label>项目名称<input required name="name" placeholder="如：北京站道岔融雪设备抢修" /></label>
+        <label>客户编号<input required name="customerCode" placeholder="CUST-001" /></label>
+        <label>设备编号<input required name="equipmentCode" placeholder="EQ-10086" /></label>
+        <label>项目类型
+          <select name="type" required>
+            <option value="故障维修">故障维修</option>
+            <option value="定期维保">定期维保</option>
+            <option value="巡检改造">巡检改造</option>
+            <option value="应急抢修">应急抢修</option>
+            <option value="寄修返厂">寄修返厂</option>
+          </select>
+        </label>
+        <label>优先级
+          <select name="priority" required>
+            <option value="低">低</option>
+            <option value="中" selected>中</option>
+            <option value="高">高</option>
+            <option value="紧急">紧急</option>
+          </select>
+        </label>
+        <label>预估金额(元)<input required type="number" min="0" step="0.01" name="amount" /></label>
+        <label class="full">故障描述<textarea required name="issue" rows="2" placeholder="请描述故障现象/维保需求"></textarea></label>
+        <button type="submit">创建并进入审核</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>项目总览</h2>
+      <div class="metrics" id="metrics"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>项目编号</th><th>项目名称</th><th>类型</th><th>优先级</th><th>金额</th><th>当前状态</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="projectRows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>审批与派工规则说明</h2>
+      <ul>
+        <li>≤1万：主管审核</li>
+        <li>1万~5万：主管 + 技术负责人</li>
+        <li>>5万：主管 + 技术 + 财务 + 总经理</li>
+        <li>点击“推进流程”将按规则自动推进：审核通过 → 派工 → 执行中 → 待验收 → 待结算 → 已归档</li>
+      </ul>
+    </section>
+  </main>
+
+  <template id="actionTpl">
+    <div class="actions">
+      <button data-action="next">推进流程</button>
+      <button data-action="delete" class="danger">删除</button>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
